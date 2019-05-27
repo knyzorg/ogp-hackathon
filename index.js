@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const { Client } = require('pg')
 const port = process.env.PORT || 3000;
-const config = require('./config/config.js');
+const config = process.env.DATABASE_URL ||  require('./config/config.js');
 const client = new Client(config);
 
 client.connect((err)=>{
