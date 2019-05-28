@@ -9,7 +9,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  })
+  });
 
 client.connect((err)=>{
     if (err) {
@@ -22,7 +22,17 @@ client.connect((err)=>{
 app.get('/trade/test', (req, res) => res.json({
     "message": "Hello, world!"
 }));
+app.get('/trade/years', async (req, res) =>{
+    let {rows} = await client.query(`
+        select distinct 
+            year 
+        from 
+            trade 
+        order by year;
+    `);
 
+    return res.json(rows.map((el) => +el.year));
+});
 app.get('/trade/summary/:year?', async (req, res) => {
     let year = req.params.year || 2018;
     let {rows} = await client.query(`
