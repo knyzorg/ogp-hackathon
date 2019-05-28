@@ -22,6 +22,7 @@ client.connect((err)=>{
 app.get('/trade/test', (req, res) => res.json({
     "message": "Hello, world!"
 }));
+
 app.get('/trade/years', async (req, res) =>{
     let {rows} = await client.query(`
         select distinct 
@@ -33,6 +34,7 @@ app.get('/trade/years', async (req, res) =>{
 
     return res.json(rows.map((el) => +el.year));
 });
+
 app.get('/trade/summary/:year?', async (req, res) => {
     let year = req.params.year || 2018;
     let {rows} = await client.query(`
