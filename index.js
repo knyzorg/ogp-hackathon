@@ -5,6 +5,12 @@ const port = process.env.PORT || 3000;
 const config = process.env.DATABASE_URL ||  require('./config/config.js');
 const client = new Client(config);
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  })
+
 client.connect((err)=>{
     if (err) {
         console.error('error connecting - ', err.stack)
