@@ -23,7 +23,8 @@ app.get('/trade/test', (req, res) => res.json({
     "message": "Hello, world!"
 }));
 
-app.get('/trade/summary', async (req, res) => {
+app.get('/trade/summary/:year?', async (req, res) => {
+    let year = req.params.year || 2018;
     let {rows} = await client.query(`
     select 
         country_code, country_description, value 
@@ -34,7 +35,7 @@ app.get('/trade/summary', async (req, res) => {
     inner join indicator 
         on indicator.indicator_code = trade.indicator_code
     where 
-        indicator_description = 'Total merchandise' and year = 2018 and flow_code = 'X' and partner_code = 'WL'
+        indicator_description = 'Total merchandise' and year = ${year} and flow_code = 'X' and partner_code = 'WL'
     and 
         length(reporter_code) < 3 
     and 
