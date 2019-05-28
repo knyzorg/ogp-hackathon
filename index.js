@@ -39,7 +39,7 @@ app.get('/trade/summary/:year?', async (req, res) => {
     let year = req.params.year || 2018;
     let {rows} = await client.query(`
     select 
-        country_code, country_description, value 
+        country_code, country_description, country_type, value 
     from 
         country
     inner join trade 
